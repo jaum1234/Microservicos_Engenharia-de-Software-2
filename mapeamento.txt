@@ -1,0 +1,7 @@
+UC01 - Cadastrar Ciclista (Fluxo Principal)
+	Passo 7:
+		[FRONT]** /cartoes [POST] (Serviço de Gerenciamento de Cartões)
+	Passo 8: 
+		[FRONT]** /ciclistas [POST] (Serviço de Gerenciamento de Ciclistas)
+	
+		

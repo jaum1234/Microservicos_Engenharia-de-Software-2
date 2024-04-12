@@ -1,0 +1,21 @@
+openapi: 3.0.3
+info:
+  title: "Sistema de Controle de Bicicletário - SCB"
+  version: 0.0.1
+tags:
+  - name: Ciclistas
+  - name: Cartões
+paths:
+  /ciclistas:
+    post:
+      description: "Cadastra um novo ciclista no sistema."
+      tags:
+      - Ciclistas
+  /cartoes:
+    post:
+      tags:
+      - Cartões
+      description: "Cadastra um novo cartão no sistema."
+   
+
+

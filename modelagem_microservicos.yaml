@@ -1,33 +1,117 @@
 openapi: 3.0.3
 info:
-  title: "Sistema de Controle de Bicicletário - SCB"
+  title: Sistema de Controle de Bicicletário - SCB
   version: 0.0.1
 tags:
   - name: Ciclistas
+    description: Serviço de Gerenciamento de Ciclistas
   - name: Cartões
+    description: Serviço de Cartões
   - name: Emails
+    description: Serviço de Email
+  - name: Trancas
+    description: Serviço de Gerenciamento de Trancas
+  - name: Bicicletas
+    description: Serviço de Gerenciamento de Bibicletas
 paths:
-  /ciclistas:
+  /bicicletas:
+    get:
+      tags:
+        - Bicicletas
+      responses:
+        200:
+          description: "Bicicletas listadas com sucesso."
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    numero:
+                      type: integer
+                    marca:
+                      type: string
+                    modelo:
+                      type: string
+                    ano:
+                      type: string
+                    localizacao:
+                      type: string
     post:
-      description: "Cadastra um novo ciclista no sistema."
+      tags:
+        - Bicicletas
       requestBody:
         content:
           application/json:
             schema:
-              type: "object"
+              $ref: "#/components/schemas/bicicleta"
+      responses:
+        201:
+          description: Bicicleta cadastrada com sucesso.
+        400:
+          description: "Dados inválidos."
+  /bicicletas/{bicicletaId}:
+    patch:
+      parameters:
+        - in: path
+          name: bicicletaId
+          required: true
+          schema:
+            type: integer
+      tags:
+        - Bicicletas
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
               properties:
-                nome:
-                  type: "string"
-                brasileiro:
-                  type: "boolean"
-                cpf:
-                  type: "string"
-                senha:
-                  type: "string"
-                foto_do_documento:
-                  type: "string"
-                cartao:
-                  $ref: "#/components/schemas/cartao"
+                marca:
+                  type: string
+                modelo:
+                  type: string
+                ano:
+                  type: string
+      responses:
+        200:
+          description: Bicicleta atualizada com sucesso.
+        400:
+          description: Dados inválidos.
+
+  /bicicletas/{bicicletaId}/atualizar-status:
+    patch:
+      tags:
+        - Bicicletas
+      parameters:
+        - in: path
+          name: bicicletaId
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                status:
+                  type: string
+      responses:
+        200:
+          description: "Status de bicicleta atualizado com sucesso."
+        
+                  
+    
+  /ciclistas:
+    post:
+      description: "Cadastra um novo ciclista."
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ciclista"
+              
       responses:
         201:
           description: "Ciclista cadastrado com sucesso."
@@ -35,6 +119,40 @@ paths:
           description: "Dados inválidos."
       tags:
       - Ciclistas
+  /ciclistas/{ciclistaId}:
+    put:
+      tags:
+        - Ciclistas
+      description: "Atualiza os dados de um ciclista"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ciclista"
+      responses:
+        200:
+          description: Ciclista atualizado com sucesso.
+        400:
+          description: Dados inválidos.
+  /ciclistas/{ciclistaId}/ativar:
+    patch:
+      description: "Atualiza parcialmente os dados de um ciclista."
+      tags:
+        - Ciclistas
+      parameters:
+        - name: ciclistaId
+          in: path
+          required: true
+          schema:
+            type: "integer"
+      responses:
+        200:
+          description: "Ciclista atualizado com sucesso."
+        400:
+          description: "Ciclista já se encontra ativo."
+        404:
+          description: "Ciclista não encontrado."
+
   /cartoes:
     post:
       tags:
@@ -48,6 +166,20 @@ paths:
       responses:
         201:
           description: "Cartão cadastrado com sucesso."
+  /cartoes/{cartaoId}:
+    put:
+      tags:
+        - Cartões
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/cartao"
+      responses:
+        200:
+          description: "Cartão atualizado com sucesso."
+        400:
+          description: "Dados inválidos."
   /cartoes/validar:
     get:
       tags:
@@ -57,6 +189,7 @@ paths:
           description: "Cartão aprovado."
         400:
           description: "Cartão reprovado: dados inválidos."
+
   /emails/enviar:
     post:
       tags:
@@ -72,10 +205,38 @@ paths:
           description: "Email enviado com sucesso."
         400:
           description: "Dados inválidos."
+  
+  /trancas/{trancaId}:
+    get:
+      tags:
+        - Trancas
+      responses:
+        200:
+          description: "Tranca recuperada com sucesso."
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  numero:
+                    type: integer
+                  status:
+                    type: string
+                  localizacao:
+                    type: string
+                  ano_de_fabricacao:
+                    type: string
+                  modelo:
+                    type: string
+        404:
+          description: "Tranca não encontrada."
+        503:
+          description: "Tranca não está respondendo."
+  
 components:
   schemas:
     cartao:
-      type: "object"
+      type: object
       properties:
         numero:
           type: "number"
@@ -96,4 +257,37 @@ components:
           type: "string"
         conteudo:
           type: "string"
-
+    ciclista:
+      type: "object"
+      properties:
+        nome:
+          type: "string"
+        brasileiro:
+          type: "boolean"
+        cpf:
+          type: "string"
+        senha:
+          type: "string"
+        foto_do_documento:
+          type: "string"
+        passaporte:
+          type: object
+          properties:
+            numero:
+              type: integer
+            validade:
+              type: string
+            pais:
+              type: string
+    bicicleta:
+      type: object
+      properties:
+        marca:
+          type: string
+        modelo:
+          type: string
+        ano:
+          type: string
+        status:
+          type: string
+          

@@ -5,10 +5,34 @@ info:
 tags:
   - name: Ciclistas
   - name: Cartões
+  - name: Emails
 paths:
   /ciclistas:
     post:
       description: "Cadastra um novo ciclista no sistema."
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: "object"
+              properties:
+                nome:
+                  type: "string"
+                brasileiro:
+                  type: "boolean"
+                cpf:
+                  type: "string"
+                senha:
+                  type: "string"
+                foto_do_documento:
+                  type: "string"
+                cartao:
+                  $ref: "#/components/schemas/cartao"
+      responses:
+        201:
+          description: "Ciclista cadastrado com sucesso."
+        400:
+          description: "Dados inválidos."
       tags:
       - Ciclistas
   /cartoes:
@@ -16,6 +40,60 @@ paths:
       tags:
       - Cartões
       description: "Cadastra um novo cartão no sistema."
-   
-
+      requestBody:
+        content:
+          application/json:
+            schema: 
+              $ref: "#/components/schemas/cartao"
+      responses:
+        201:
+          description: "Cartão cadastrado com sucesso."
+  /cartoes/validar:
+    get:
+      tags:
+      - Cartões
+      responses:
+        200:
+          description: "Cartão aprovado."
+        400:
+          description: "Cartão reprovado: dados inválidos."
+  /emails/enviar:
+    post:
+      tags:
+        - "Emails"
+      requestBody:
+        content:
+          application/json:
+            schema: 
+              $ref: "#/components/schemas/email"
+              
+      responses:
+        201:
+          description: "Email enviado com sucesso."
+        400:
+          description: "Dados inválidos."
+components:
+  schemas:
+    cartao:
+      type: "object"
+      properties:
+        numero:
+          type: "number"
+        nome:
+          type: "string"
+        validade:
+          type: "string"
+        codigo_de_seguranca:
+          type: "string"
+    email:
+      type: "object"
+      properties:
+        remetente:
+          type: "string"
+        destinatario:
+          type: "string"
+        assunto:
+          type: "string"
+        conteudo:
+          type: "string"
 

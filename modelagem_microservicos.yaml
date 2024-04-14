@@ -116,6 +116,33 @@ paths:
         400:
           description: "Dados inválidos."
   /bicicletas/{bicicletaId}:
+    get:
+      tags:
+        - Bicicletas
+      parameters:
+        - in: path
+          name: bibicletaId
+          required: true
+          schema:
+            type: integer
+      responses:
+        200:
+          description: "Bicicleta exibida com sucesso."
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  numero_da_bicicleta:
+                    type: integer
+                  marca:
+                    type: string
+                  modelo:
+                    type: string
+                  ano:
+                    type: string
+                  statys:
+                    type: string
     patch:
       parameters:
         - in: path
@@ -293,6 +320,29 @@ paths:
         200:
           description: "Status da tranca atualizado com sucesso."
   /trancas/{trancaId}:
+    get:
+      tags:
+        - Trancas
+      parameters:
+        - in: path
+          name: trancaId
+          required: true
+          schema:
+            type: integer
+      responses:
+        200:
+          description: Tranca exibida com sucesso.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                  ano_de_fabricacao:
+                    type: string
+                  modelo:
+                    type: string
     patch:
       tags:
         - Trancas
@@ -321,7 +371,7 @@ paths:
         - Trancas
       parameters:
         - in: query
-          name: tracaId
+          name: totemId
           description: Totem associado a tranca.
           schema:
             type: integer
@@ -422,6 +472,35 @@ paths:
         400:
           description: Dados inválidos.
   /funcionarios/{funcionarioId}:
+    get:
+      tags:
+        - Fucionarios
+      parameters:
+        - in: path
+          name: funcionarioId
+          required: true
+          schema:
+            type: integer
+      responses:
+        200:
+          description: Funcionário exibido com sucesso.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  nome:
+                    type: string
+                  idade:
+                    type: integer
+                  matricula:
+                    type: string
+                  email:
+                    type: string
+                  senha:
+                    type: string
+                  documento:
+                    type: string
     patch:
       parameters:
         - in: path

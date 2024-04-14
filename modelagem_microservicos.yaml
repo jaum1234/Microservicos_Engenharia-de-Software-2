@@ -13,11 +13,75 @@ tags:
     description: Serviço de Gerenciamento de Trancas
   - name: Bicicletas
     description: Serviço de Gerenciamento de Bibicletas
+  - name: Totens
+    description: Serviço de Gerenciamento de Totens
+  - name: Funcionarios
+    description: Serviço de Gerenciamento de Funcionarios
 paths:
+  # Totens
+  /totens:
+    get:
+      tags:
+        - Totens
+      responses:
+        200:
+          description: "Totens listados com sucesso."
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    numero:
+                      type: integer
+                    localizacao:
+                      type: string
+    post:
+      tags:
+        - Totens
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                localizacao:
+                  type: string
+                descricao:
+                  type: string
+      responses:
+        201:
+          description: Totem criado com sucesso.
+        400:
+          description: Dados listados.  
+  /totens/{totemId}:
+    delete:
+      tags:
+        - Totens
+      parameters:
+        - in: path
+          name: totemId
+          required: true
+          schema:
+            type: integer
+      responses:
+        204:
+          description: Totem excluído com sucesso.
+        400:
+          description: Totem está associado a uma ou mais trancas.
+
+  # Bicicletas
   /bicicletas:
     get:
       tags:
         - Bicicletas
+      parameters:
+        - in: query
+          name: totemId
+          description: "Totem ao qual a bicicleta está associada."
+          schema:
+            type: integer
       responses:
         200:
           description: "Bicicletas listadas com sucesso."
@@ -78,7 +142,6 @@ paths:
           description: Bicicleta atualizada com sucesso.
         400:
           description: Dados inválidos.
-
   /bicicletas/{bicicletaId}/atualizar-status:
     patch:
       tags:
@@ -100,9 +163,8 @@ paths:
       responses:
         200:
           description: "Status de bicicleta atualizado com sucesso."
-        
-                  
-    
+
+  # Ciclistas
   /ciclistas:
     post:
       description: "Cadastra um novo ciclista."
@@ -123,6 +185,12 @@ paths:
     put:
       tags:
         - Ciclistas
+      parameters:
+        - in: path
+          name: ciclistaId
+          required: true
+          schema:
+            type: integer
       description: "Atualiza os dados de um ciclista"
       requestBody:
         content:
@@ -153,6 +221,7 @@ paths:
         404:
           description: "Ciclista não encontrado."
 
+  # Cartöes
   /cartoes:
     post:
       tags:
@@ -190,6 +259,7 @@ paths:
         400:
           description: "Cartão reprovado: dados inválidos."
 
+  # Emails
   /emails/enviar:
     post:
       tags:
@@ -206,33 +276,199 @@ paths:
         400:
           description: "Dados inválidos."
   
+  # Trancas
+  /trancas/{trancaId}/atualizar-status:
+    patch:
+      tags:
+        - Trancas
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                status:
+                  type: string
+      responses:
+        200:
+          description: "Status da tranca atualizado com sucesso."
   /trancas/{trancaId}:
+    patch:
+      tags:
+        - Trancas
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                numero_da_tranca:
+                  type: string
+                status:
+                  type: string
+                ano_de_fabricacao:
+                  type: string
+                modelo:
+                  type: string
+      responses:
+        200:
+          description: "Tranca atualizada com sucesso."
+        400:
+          description: "Dados inválidos."
+  /trancas:
     get:
       tags:
         - Trancas
+      parameters:
+        - in: query
+          name: tracaId
+          description: Totem associado a tranca.
+          schema:
+            type: integer
       responses:
         200:
-          description: "Tranca recuperada com sucesso."
+          description: "Trancas listadas com sucesso."
           content:
             application/json:
               schema:
-                type: "object"
-                properties:
-                  numero:
-                    type: integer
-                  status:
-                    type: string
-                  localizacao:
-                    type: string
-                  ano_de_fabricacao:
-                    type: string
-                  modelo:
-                    type: string
-        404:
-          description: "Tranca não encontrada."
-        503:
-          description: "Tranca não está respondendo."
-  
+                type: array
+                items:
+                  type: object
+                  properties:
+                    numero:
+                      type: integer
+                    status:
+                      type: string
+                    localizacao:
+                      type: string
+                    ano_de_fabricacao:
+                      type: string
+                    modelo:
+                      type: string
+    post:
+      tags:
+        - Trancas
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                status:
+                  type: string
+                ano_de_fabricacao:
+                  type: string
+                modelo:
+                  type: string
+      responses:
+        201:
+          description: "Tranca incluída com sucesso."
+        400:
+          description: "Dados inválidos."       
+
+  # Funcionários
+  /funcionarios:
+    get:
+      tags:
+        - Funcionarios
+      responses:
+        200:
+          description: Funcionarios listados com sucesso.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    matricula:
+                      type: string
+                    nome:
+                      type: string
+                    idade:
+                      type: integer
+                    funcao:
+                      type: string
+                    cpf:
+                      type: string
+                    email:
+                      type: string
+    post:
+      tags:
+        - Funcionarios
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                matricula:
+                  type: string
+                email:
+                  type: string
+                senha:
+                  type: string
+                nome:
+                  type: string
+                idade:
+                  type: integer
+                funcao:
+                  type: string
+                cpf:
+                  type: string
+      responses:
+        201:
+          description: Funcionário criado com sucesso.
+        400:
+          description: Dados inválidos.
+  /funcionarios/{funcionarioId}:
+    patch:
+      parameters:
+        - in: path
+          name: funcionarioId
+          required: true
+          schema:
+            type: integer
+      tags:
+        - Funcionarios
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                nome:
+                  type: string
+                idade:
+                  type: integer
+                matricula:
+                  type: string
+                email:
+                  type: string
+                senha:
+                  type: string
+                funcao:
+                  type: string
+                documento:
+                  type: string
+      responses:
+        200:
+          description: Funcionário atualizado com sucesso.
+        400:
+          description: Dados inválidos.
+    delete:
+      parameters:
+        - in: path
+          name: funcionarioId
+          required: true
+          schema:
+            type: integer
+      tags:
+        - Funcionarios
+      responses:
+        204:
+          description: Funcionário excluído com sucesso.
+
 components:
   schemas:
     cartao:

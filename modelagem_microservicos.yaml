@@ -474,7 +474,7 @@ paths:
   /funcionarios/{funcionarioId}:
     get:
       tags:
-        - Fucionarios
+        - Funcionarios
       parameters:
         - in: path
           name: funcionarioId

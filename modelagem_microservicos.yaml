@@ -9,12 +9,8 @@ tags:
     description: Serviço de Cartões
   - name: Emails
     description: Serviço de Email
-  - name: Trancas
-    description: Serviço de Gerenciamento de Trancas
-  - name: Bicicletas
-    description: Serviço de Gerenciamento de Bibicletas
-  - name: Totens
-    description: Serviço de Gerenciamento de Totens
+  - name: Equipamentos
+    description: Serviço de Gerenciamento de Equipamentos
   - name: Funcionarios
     description: Serviço de Gerenciamento de Funcionarios
 paths:
@@ -22,7 +18,7 @@ paths:
   /totens:
     get:
       tags:
-        - Totens
+        - Equipamentos
       responses:
         200:
           description: "Totens listados com sucesso."
@@ -39,7 +35,7 @@ paths:
                       type: string
     post:
       tags:
-        - Totens
+        - Equipamentos
       requestBody:
         content:
           application/json:
@@ -58,7 +54,7 @@ paths:
   /totens/{totemId}:
     delete:
       tags:
-        - Totens
+        - Equipamentos
       parameters:
         - in: path
           name: totemId
@@ -75,7 +71,7 @@ paths:
   /bicicletas:
     get:
       tags:
-        - Bicicletas
+        - Equipamentos
       parameters:
         - in: query
           name: totemId
@@ -104,7 +100,7 @@ paths:
                       type: string
     post:
       tags:
-        - Bicicletas
+        - Equipamentos
       requestBody:
         content:
           application/json:
@@ -118,7 +114,7 @@ paths:
   /bicicletas/{bicicletaId}:
     get:
       tags:
-        - Bicicletas
+        - Equipamentos
       parameters:
         - in: path
           name: bibicletaId
@@ -151,7 +147,7 @@ paths:
           schema:
             type: integer
       tags:
-        - Bicicletas
+        - Equipamentos
       requestBody:
         content:
           application/json:
@@ -172,7 +168,7 @@ paths:
   /bicicletas/{bicicletaId}/atualizar-status:
     patch:
       tags:
-        - Bicicletas
+        - Equipamentos
       parameters:
         - in: path
           name: bicicletaId
@@ -307,7 +303,7 @@ paths:
   /trancas/{trancaId}/atualizar-status:
     patch:
       tags:
-        - Trancas
+        - Equipamentos
       requestBody:
         content:
           application/json:
@@ -322,7 +318,7 @@ paths:
   /trancas/{trancaId}:
     get:
       tags:
-        - Trancas
+        - Equipamentos
       parameters:
         - in: path
           name: trancaId
@@ -345,7 +341,7 @@ paths:
                     type: string
     patch:
       tags:
-        - Trancas
+        - Equipamentos
       requestBody:
         content:
           application/json:
@@ -368,7 +364,7 @@ paths:
   /trancas:
     get:
       tags:
-        - Trancas
+        - Equipamentos
       parameters:
         - in: query
           name: totemId
@@ -397,7 +393,7 @@ paths:
                       type: string
     post:
       tags:
-        - Trancas
+        - Equipamentos
       requestBody:
         content:
           application/json:

@@ -110,7 +110,7 @@ paths:
         201:
           description: Bicicleta cadastrada com sucesso.
         400:
-          description: "Dados inválidos."
+          $ref: "#/components/responses/400"
   /bicicletas/{bicicletaId}:
     get:
       tags:
@@ -201,7 +201,7 @@ paths:
         201:
           description: "Ciclista cadastrado com sucesso."
         400:
-          description: "Dados inválidos."
+          $ref: "#/components/responses/400"
       tags:
       - Ciclistas
   /ciclistas/{ciclistaId}:
@@ -224,7 +224,7 @@ paths:
         200:
           description: Ciclista atualizado com sucesso.
         400:
-          description: Dados inválidos.
+          $ref: "#/components/responses/400"
   /ciclistas/{ciclistaId}/ativar:
     patch:
       description: "Atualiza parcialmente os dados de um ciclista."
@@ -241,8 +241,14 @@ paths:
           description: "Ciclista atualizado com sucesso."
         400:
           description: "Ciclista já se encontra ativo."
-        404:
-          description: "Ciclista não encontrado."
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  erro:
+                    type: string
+                    example: "Dados inválidos: ciclista já se encontra ativo."
 
   # Cartöes
   /cartoes:
@@ -259,6 +265,22 @@ paths:
         201:
           description: "Cartão cadastrado com sucesso."
   /cartoes/{cartaoId}:
+    get:
+      parameters:
+        - in: path
+          required: true
+          name: cartaoId
+          schema:
+            type: integer
+      tags:
+        - Cartões
+      responses:
+        200:
+          description: "Cartão recuperado com sucesso."
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/cartao"
     put:
       tags:
         - Cartões
@@ -274,6 +296,27 @@ paths:
           description: "Dados inválidos."
   /cartoes/validar:
     get:
+      parameters:
+        - in: query
+          name: numero
+          required: true
+          schema:
+            type: integer
+        - in: query
+          name: nome
+          required: true
+          schema:
+            type: string
+        - in: query
+          name: validade
+          required: true
+          schema:
+            type: string
+        - in: query
+          name: codigo
+          required: true
+          schema:
+            type: string
       tags:
       - Cartões
       responses:
@@ -281,6 +324,14 @@ paths:
           description: "Cartão aprovado."
         400:
           description: "Cartão reprovado: dados inválidos."
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  erro:
+                    type: string
+                    example: Cartão recusado.
 
   # Emails
   /emails/enviar:
@@ -302,6 +353,12 @@ paths:
   # Trancas
   /trancas/{trancaId}/atualizar-status:
     patch:
+      parameters:
+        - in: path
+          name: trancaId
+          required: true
+          schema:
+            type: integer
       tags:
         - Equipamentos
       requestBody:
@@ -410,7 +467,7 @@ paths:
         201:
           description: "Tranca incluída com sucesso."
         400:
-          description: "Dados inválidos."       
+          $ref: "#/components/responses/400"
 
   # Funcionários
   /funcionarios:
@@ -466,7 +523,7 @@ paths:
         201:
           description: Funcionário criado com sucesso.
         400:
-          description: Dados inválidos.
+          $ref: "#/components/responses/400"
   /funcionarios/{funcionarioId}:
     get:
       tags:
@@ -545,6 +602,17 @@ paths:
           description: Funcionário excluído com sucesso.
 
 components:
+  responses:
+    400:
+      description: "Dados inválidos."
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              erro:
+                type: string
+                example: Dados inválidos
   schemas:
     cartao:
       type: object

@@ -7,6 +7,14 @@ UC01 - Cadastrar Ciclista (Fluxo Principal)
 	Passo 9:
 		[FRONT] /email/enviar [POST] (Serviço de Email)
 
+UC01 - Cadastrar Ciclista (Fluxo Alternativo 2)
+	Passo 1:
+		[BACK] /ciclistas [POST] (Serviço de Gerenciamento de Ciclistas)
+
+UC01 - Cadastrar Ciclista (Fluxo Alternativo 3)
+	Passo 1:
+		[BACK] /cartoes/validar?numero&nome&validade&codigo [GET] (Serviço de Gerenciamento de Cartões)
+
 UC02 - Confirmar Email (Fluxo Principal)
 	Passo 1:
 		[FRONT] /ciclistas/{ciclistaId}/ativar [GET] (Serviço de Gerencimaneto de Ciclistas)
@@ -19,6 +27,16 @@ UC06 - Alterar Dados do Ciclista (Fluxo Principal)
 	Passo 2:
 		[FRONT] /ciclistas/{ciclistaId} [PUT] [R1], [R2] (Serviço de Gerenciamento de Ciclistas)
 	Passo 3:
+		[BACK] /ciclistas/{ciclistaId} [PUT] (Serviço de Gerenciamento de Ciclistas)
+	Passo 4:
+		[BACK] /emails/enviar [POST] (Serviço de Email)
+
+UC06 - Alterar Dados do Ciclista (Fluxo Alternativo 1)
+	Passo 1:
+		[BACK] /ciclistas/{ciclistaId} [PUT] (Serviço de Gerenciamento de Ciclistas)
+
+UC06 - Alterar Dados do Ciclista (Fluxo Alternativo 2)
+	Passo 1:
 		[BACK] /ciclistas/{ciclistaId} [PUT] (Serviço de Gerenciamento de Ciclistas)
 
 UC07 - Alterar Cartão (Fluxo Principal)
@@ -33,79 +51,79 @@ UC07 - Alterar Cartão (Fluxo Principal)
 
 UC10 - Manter Cadastro de Bicicletas (Fluxo Principal)
 	Passo 1:
-		[FRONT] /bicicletas [GET] (Serviço de Gerenciamento de Bicicletas)
+		[FRONT] /bicicletas [GET] (Serviço de Gerenciamento de Equipamentos)
 	Passo 5:
-		[FRONT] /bicicletas [POST] [R2] (Serviço de Gerenciamento de Bicicletas)
+		[FRONT] /bicicletas [POST] [R2] (Serviço de Gerenciamento de Equipamentos)
 	Passo 6:
-		[BACK] /bicicletas [POST] (Serviço de Gerenciamento de Bicicletas)
+		[BACK] /bicicletas [POST] (Serviço de Gerenciamento de Equipamentos)
 	Passo 7:
-		[BACK] /bicicletas [POST] (Serviço de Gerenciamento de Bicicletas)
+		[BACK] /bicicletas [POST] (Serviço de Gerenciamento de Equipamentos)
 	
 UC10 - Manter Cadastro de Bicicletas (Fluxo Alternativo 1)
 	Passo 1:
-		[FRONT] /bicicletas/{bicicletaId} [GET] (Serviço de Gerenciamento de Bicicletas)
+		[FRONT] /bicicletas/{bicicletaId} [GET] (Serviço de Gerenciamento de Equipamentos)
 	Passo 2:
-		[FRONT] /bicicletas/{bicicletasId} [PATCH] R2, [R3] (Serviço de Gerenciamento de Bibicletas)
+		[FRONT] /bicicletas/{bicicletasId} [PATCH] [R2], [R3] (Serviço de Gerenciamento de Equipamentos)
 	Passo 3:
-		[BACK] /bicicletas/{bicicletasId} [PATCH] [R2], [R3] (Serviço de Gerenciamento de Bibicletas)
+		[BACK] /bicicletas/{bicicletasId} [PATCH] [R2], [R3] (Serviço de Gerenciamento de Equipamentos)
 	Passo 4:
-		[BACK] /bicicletas/{bicicletasId} [PATCH] [R2], [R3] (Serviço de Gerenciamento de Bibicletas)
+		[BACK] /bicicletas/{bicicletasId} [PATCH] [R2], [R3] (Serviço de Gerenciamento de Equipamentos)
 
 UC10 - Manter Cadastro de Bicicletas (Fluxo Alternativo 2)
 	Passo 2:
-		[FRONT] /bicicletas/{bicicletaId}/atualizar-status [PATCH] (Serviço de Gerenciamento de Bicicletas)
+		[FRONT] /bicicletas/{bicicletaId}/atualizar-status [PATCH] (Serviço de Gerenciamento de Equipamentos)
 	Passo 3:
-		[BACK] /bicicletas/{bicicletaId}/atualizar-status [PATCH] (Serviço de Gerenciamento de Bicicletas)
+		[BACK] /bicicletas/{bicicletaId}/atualizar-status [PATCH] (Serviço de Gerenciamento de Equipamentos)
 
 UC13 - Manter Cadastro de Trancas (Fluxo Principal)
 	Passo 1:
-		[FRONT] /trancas [GET] (Serviço de Gerenciamento de Trancas)
+		[FRONT] /trancas [GET] (Serviço de Gerenciamento de Equipamentos)
 	Passo 5:
-		[FRONT] /tracas [POST] [R1], [R2], [R3] (Serviço de Gerenciamento de Trancas)
+		[FRONT] /tracas [POST] [R1], [R2], [R3] (Serviço de Gerenciamento de Equipamentos)
 	Passo 6:
-		[BACK] /tracas [POST] [R1], [R2], [R3] (Serviço de Gerenciamento de Trancas)
+		[BACK] /tracas [POST] [R1], [R2], [R3] (Serviço de Gerenciamento de Equipamentos)
 	Passo 7:
-		[BACK] /tracas [POST] [R1], [R2], [R3] (Serviço de Gerenciamento de Trancas)
+		[BACK] /tracas [POST] [R1], [R2], [R3] (Serviço de Gerenciamento de Equipamentos)
 
 UC13 - Manter Cadastro de Trancas (Fluxo Alternativo 1)
 	Passo 1:
-		[FRONT] /trancas/{trancaId} [GET] (Serviço de Gerenciamento de Trancas)
+		[FRONT] /trancas/{trancaId} [GET] (Serviço de Gerenciamento de Equipamentos)
 	Passo 2:
-		[FRONT] /tracas/{trancaId} [PATCH] [R1, R2, R3] (Serviço de Gerenciamento de Trancas)
+		[FRONT] /tracas/{trancaId} [PATCH] [R1, R2, R3] (Serviço de Gerenciamento de Equipamentos)
 	Passo 3:
-		[BACK] /tracas/{trancaId} [PATCH] [R1, R2, R3] (Serviço de Gerenciamento de Trancas)
+		[BACK] /tracas/{trancaId} [PATCH] [R1, R2, R3] (Serviço de Gerenciamento de Equipamentos)
 	Passo 4:
-		[BACK] /tracas/{trancaId} [PATCH] [R1, R2, R3] (Serviço de Gerenciamento de Trancas)
+		[BACK] /tracas/{trancaId} [PATCH] [R1, R2, R3] (Serviço de Gerenciamento de Equipamentos)
 
 UC13 - Manter Cadastro de Trancas (Fluxo Alternativo 2)
 	Passo 2:
-		[FRONT] /trancas/{trancaId}/atualizar-status [PATCH] (Serviço de Gerenciamento de Trancas)
+		[FRONT] /trancas/{trancaId}/atualizar-status [PATCH] (Serviço de Gerenciamento de Equipamentos)
 	Passo 3:
-		[BACK] /trancas/{trancaId}/atualizar-status [PATCH] (Serviço de Gerenciamento de Trancas)
+		[BACK] /trancas/{trancaId}/atualizar-status [PATCH] (Serviço de Gerenciamento de Equipamentos)
 
 UC14 - Manter Cadastro de Totens (Fluxo Principal)
 	Passo 1:
-		[FRONT] /totens [GET] (Serviço de Gerenciamento de Totens)
+		[FRONT] /totens [GET] (Serviço de Gerenciamento de Equipamentos)
 	Passo 5:
-		[FRONT] /totens [POST] [R1] [R2] (Serviço de Gerenciamento de Totens)
+		[FRONT] /totens [POST] [R1] [R2] (Serviço de Gerenciamento de Equipamentos)
 	Passo 6:
-		[BACK] /totens [POST] (Serviço de Gerenciamento de Totens)
+		[BACK] /totens [POST] (Serviço de Gerenciamento de Equipamentos)
 	Passo 7:
-		[BACK] /totens [POST] (Serviço de Gerenciamento de Totens)
+		[BACK] /totens [POST] (Serviço de Gerenciamento de Equipamentos)
 		
 UC14 - Manter Cadastro de Totens (Fluxo Alternativo 1)
 	Passo 2:
-		[FRONT] /totens/{totemId} [DELETE] [R3] (Serviço de Gerenciamento de Totens)
+		[FRONT] /totens/{totemId} [DELETE] [R3] (Serviço de Gerenciamento de Equipamentos)
 	Passo 4:
-		[BACK] /totens/{totemId} [DELETE] [R3] (Serviço de Gerenciamento de Totens)
+		[BACK] /totens/{totemId} [DELETE] [R3] (Serviço de Gerenciamento de Equipamentos)
 
 UC14 - Manter Cadastro de Totens (Fluxo Alternativo 4)
 	Passo 1:
-		[FRONT] /trancas?totemId [GET] (Serviço de Gerenciamento de Trancas)
+		[FRONT] /trancas?totemId [GET] (Serviço de Gerenciamento de Equipamentos)
 
 UC14 - Manter Cadastro de Totens (Fluxo Alternativo 5)
 	Passo 1:
-		[FRONT] /bicicletas?totemId [GET] (Serviço de Gerenciamento de Trancas)
+		[FRONT] /bicicletas?totemId [GET] (Serviço de Gerenciamento de Equipamentos)
 
 UC15 - Manter Cadastro de Funcionários (Fluxo Principal)
 	Passo 1:

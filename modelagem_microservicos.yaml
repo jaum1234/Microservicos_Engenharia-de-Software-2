@@ -11,8 +11,7 @@ tags:
     description: Serviço de Email
   - name: Equipamentos
     description: Serviço de Gerenciamento de Equipamentos
-  - name: Funcionarios
-    description: Serviço de Gerenciamento de Funcionarios
+
 paths:
   # Totens
   /totens:
@@ -66,8 +65,46 @@ paths:
           description: Totem excluído com sucesso.
         400:
           description: Totem está associado a uma ou mais trancas.
+  /totens/{totemId}/trancas/{trancaId}/incluir:
+    patch:
+      tags:
+        - Equipamentos
+      parameters:
+        - $ref: "#/components/parameters/totemId"
+        - $ref: "#/components/parameters/trancaId"
+      responses:
+        200:
+          description: "Tranca incluída no totem com sucesso."
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  sucesso:
+                    type: boolean
+        404:
+          description: "Tranca não cadastrada no sistema."
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  erro:
+                    type: string
+                    example: Número da tranca inválido (tranca não cadastrada no sistema).
+  /totens/{totemId}/trancas/{trancaId}/solicitar-liberacao:
+    
+  /totens/{totemId}/trancas/{trancaId}/retirar:
+    patch:
+      tags:
+        - Equipamentos
+      parameters:
+        - $ref: "#/components/parameters/totemId"
+        - $ref: "#/components/parameters/trancaId"
+  
 
-  # Bicicletas
+
+  # Bicicletas  
   /bicicletas:
     get:
       tags:
@@ -165,7 +202,7 @@ paths:
           description: Bicicleta atualizada com sucesso.
         400:
           $ref: "#/components/responses/400"
-  /bicicletas/{bicicletaId}/atualizar-status:
+  /bicicletas/{bicicletaId}/excluir:
     patch:
       tags:
         - Equipamentos
@@ -188,6 +225,38 @@ paths:
           description: "Status de bicicleta atualizado com sucesso."
 
   # Ciclistas
+  /ciclistas/{email}/validar:
+    get:
+      description: "Valida se um email já foi cadastrado."
+      tags:
+        - Ciclistas
+      parameters:
+        - in: path
+          name: email
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: "Email disponível."
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  sucesso:
+                    type: string
+                    example: Email disponível para cadastro
+        400:
+          description: "Email já cadastrado ou inválido."
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  erro:
+                    type: string
+                    example: Email já cadastrado ou inválido.  
   /ciclistas:
     post:
       description: "Cadastra um novo ciclista."
@@ -357,7 +426,7 @@ paths:
           description: "Dados inválidos."
   
   # Trancas
-  /trancas/{trancaId}/atualizar-status:
+  /trancas/{trancaId}/excluir:
     patch:
       parameters:
         - in: path
@@ -479,7 +548,7 @@ paths:
   /funcionarios:
     get:
       tags:
-        - Funcionarios
+        - Equipamentos
       responses:
         200:
           description: Funcionarios listados com sucesso.
@@ -504,7 +573,7 @@ paths:
                       type: string
     post:
       tags:
-        - Funcionarios
+        - Equipamentos
       requestBody:
         content:
           application/json:
@@ -533,7 +602,7 @@ paths:
   /funcionarios/{funcionarioId}:
     get:
       tags:
-        - Funcionarios
+        - Equipamentos
       parameters:
         - in: path
           name: funcionarioId
@@ -568,7 +637,7 @@ paths:
           schema:
             type: integer
       tags:
-        - Funcionarios
+        - Equipamentos
       requestBody:
         content:
           application/json:
@@ -602,7 +671,7 @@ paths:
           schema:
             type: integer
       tags:
-        - Funcionarios
+        - Equipamentos
       responses:
         204:
           description: Funcionário excluído com sucesso.
@@ -619,6 +688,19 @@ components:
               erro:
                 type: string
                 example: Dados inválidos
+  parameters:
+    totemId:
+      in: path
+      name: totemId
+      required: true
+      schema:
+        type: integer
+    trancaId:
+      in: path
+      name: trancaId
+      required: true
+      schema:
+        type: integer
   schemas:
     cartao:
       type: object

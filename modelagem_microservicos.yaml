@@ -93,7 +93,33 @@ paths:
                     type: string
                     example: Número da tranca inválido (tranca não cadastrada no sistema).
   /totens/{totemId}/trancas/{trancaId}/solicitar-liberacao:
-    
+    patch:
+      tags:
+        - Equipamentos
+      parameters:
+        - $ref: "#/components/parameters/totemId"
+        - $ref: "#/components/parameters/trancaId"
+      responses:
+        200:
+          description: "Solicitação de liberação concluída."
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  mensagem: 
+                    type: string
+                    example: Liberação solicitada.
+        404:
+          description: "Número da tranca inválido."
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  erro:
+                    type: string
+                    example: Número da tranca inválido.
   /totens/{totemId}/trancas/{trancaId}/retirar:
     patch:
       tags:
@@ -101,10 +127,27 @@ paths:
       parameters:
         - $ref: "#/components/parameters/totemId"
         - $ref: "#/components/parameters/trancaId"
-  
-
-
-  # Bicicletas  
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                status:
+                  type: string
+                  example: em reparo
+      responses:
+        200:
+          description: "Tranca retirada com sucesso."
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  mensagem:
+                    type: string
+                    example: "Tranca retirada."
+  # Bicicletas
   /bicicletas:
     get:
       tags:
@@ -174,7 +217,7 @@ paths:
                     type: string
                   ano:
                     type: string
-                  statys:
+                  status:
                     type: string
     patch:
       parameters:
@@ -543,6 +586,168 @@ paths:
           description: "Tranca incluída com sucesso."
         400:
           $ref: "#/components/responses/400"
+  /trancas/{trancaId}/bicicletas/{bicicletaId}/incluir:
+    patch:
+      parameters:
+        - $ref: "#/components/parameters/trancaId"
+        - $ref: "#/components/parameters/bicicletaId"
+      tags:
+        - Equipamentos
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                data_insercao:
+                  type: string
+                  example: 2024-01-01 14:13:21
+      responses:
+        200:
+          description: "Bicicleta incluída com sucesso."
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  mensagem: 
+                    type: string
+                    example: Bicicleta incluída.
+                  dados:
+                    type: object
+                    properties:
+                      bicileta_id: 
+                        type: integer
+                        example: 1
+                      tranca_id:
+                        type: integer
+                        example: 1
+                      data_insercao:
+                        type: string
+                        example: 2024-01-01 12:12:12
+        404:
+          description: Número da bicicleta inválido.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  erro:
+                    type: string
+                    example: Número da bicicleta inválido.
+                  dados:
+                    type: object
+                    properties:
+                      numero_bicicleta: 
+                        type: integer
+                        example: -10323
+        400:
+          description: "Bicicleta em uso"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  erro:
+                    type: string
+                    example: B
+  /trancas/{trancaId}/solicitar-abertura:
+    patch:
+      tags:
+        - Equipamentos
+      parameters:
+        - $ref: "#/components/parameters/trancaId"
+      responses:
+        200:
+          description: Abertura solicitada.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  mensagem:
+                    type: string
+                    example: Abertura solicitada.
+                  dados:
+                    type: object
+                    properties:
+                      tranca_id:
+                        type: integer
+                        example: 1
+        404:
+          description: Número da tranca inválido.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  erro:
+                    type: string
+                    example: Número da tranca inválido.
+                  dados:
+                    type: object
+                    properties:
+                      numero_tranca: 
+                        type: integer
+                        example: -10323
+        400:
+          description: Bicicleta com status "disponível" ou tranca com status "livre".
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  erro:
+                    type: string
+                    example: Bicicleta com status "disponível" ou tranca com status "livre".
+                  dados:
+                    type: object
+                    properties:
+                      status_bicicleta:
+                        type: string
+                      status_tranca:
+                        type: string
+  /trancas/{trancaId}/bicicletas/{bicicletaId}/retirar:
+    patch:
+      tags:
+        - Equipamentos
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                status:
+                  type: string
+                  example: aposentada
+                data_retirada:
+                  type: string
+                reparador:
+                  type: integer
+      responses:
+        200:
+          description: Bicicleta retirada com sucesso.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  mensagem:
+                    type: string
+                    example: "Tranca retirada."
+                  dados:
+                    type: object
+                    properties:
+                      bicicleta_id:
+                        type: integer
+                        example: 1231
+                      tranca_id:
+                        type: integer
+                        example: 9213
+                      reparador:
+                        type: integer
+                        example: 3209
+      
 
   # Funcionários
   /funcionarios:
@@ -689,6 +894,12 @@ components:
                 type: string
                 example: Dados inválidos
   parameters:
+    bicicletaId:
+      in: path
+      name: bicicletaId
+      required: true
+      schema:
+        type: integer
     totemId:
       in: path
       name: totemId

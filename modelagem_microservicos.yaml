@@ -167,6 +167,8 @@ paths:
                   type: string
                 ano:
                   type: string
+                status:
+                  type: string
       responses:
         200:
           description: Bicicleta atualizada com sucesso.
@@ -302,6 +304,28 @@ paths:
                   erro:
                     type: string
                     example: Bicicleta em uso.
+  /bicicletas/{bicicletaId}/solicitar-reparo:
+    patch:
+      tags:
+        - Equipamentos
+      parameters:
+        - $ref: "#/components/parameters/bicicletaId"
+      responses:
+        200:
+          description: Reparo solicitado
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  mensagem:
+                    type: string
+                    example: Reparo solicitado.
+                  dados:
+                    type: object
+                    properties:
+                      bicicletaId:
+                        type: integer
 
   # Ciclistas
   /ciclistas/{email}/validar:
@@ -415,11 +439,7 @@ paths:
   /cartoes/{cartaoId}:
     get:
       parameters:
-        - in: path
-          required: true
-          name: cartaoId
-          schema:
-            type: integer
+        - $ref: "#/components/parameters/cartaoId"
       tags:
         - Cartões
       responses:
@@ -486,6 +506,75 @@ paths:
                   erro:
                     type: string
                     example: Cartão recusado.
+  /cartoes/enviar-cobranca:
+    post:
+      tags:
+        - Cartões
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                valor:
+                  type: integer
+                ciclistaId:
+                  type: integer
+                tipo:
+                  type: string
+      responses:
+        200:
+          description: Pagamento autorizado.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  mensagem:
+                    type: string
+                    example: Pagamento autorizado.
+                  dados:
+                    type: object
+                    properties:
+                      valor:
+                        type: integer
+                        example: 10.00
+        400:
+          description: Pagamento não autorizado.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  erro:
+                    type: string
+                    example: Pagamento não autorizado.
+        500:
+          description: Erro no pagamento.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  erro:
+                    type: string
+                    example: Erro no pagamento.
+  /cartoes/cobrar-taxas-atrasadas:
+    get:
+      tags:
+        - Cartões
+      responses:
+        200:
+          description: Cobranças realizadas.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  mensagem:
+                    type: string
+                    example: Cobranças realizadas.
+  
 
   # Emails
   /emails/enviar:
@@ -688,7 +777,7 @@ paths:
         - $ref: "#/components/parameters/trancaId"
       responses:
         200:
-          description: Abertura solicitada.
+          description: Tranca disponível.
           content:
             application/json:
               schema:
@@ -696,7 +785,7 @@ paths:
                 properties:
                   mensagem:
                     type: string
-                    example: Abertura solicitada.
+                    example: Tranca disponível.
                   dados:
                     type: object
                     properties:
@@ -736,6 +825,29 @@ paths:
                         type: string
                       status_tranca:
                         type: string
+  /trancas/{trancaId}/solicitar-fechamento:
+    patch:
+      tags:
+        - Equipamentos
+      parameters:
+        - $ref: "#/components/parameters/trancaId"
+      responses:
+        200:
+          description: Tranca fechada.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  mensagem:
+                    type: string
+                    example: Tranca fechada.
+                  dados:
+                    type: object
+                    properties:
+                      trancaId:
+                        type: integer
+                        example: 1 
   /trancas/{trancaId}/solicitar-liberacao:
     patch:
       tags:
@@ -745,7 +857,7 @@ paths:
         - $ref: "#/components/parameters/trancaId"
       responses:
         200:
-          description: "Solicitação de liberação concluída."
+          description: "Tranca liberada."
           content:
             application/json:
               schema:
@@ -753,7 +865,7 @@ paths:
                 properties:
                   mensagem: 
                     type: string
-                    example: Liberação solicitada.
+                    example: Tranca liberada.
         404:
           description: "Número da tranca inválido."
           content:
@@ -861,8 +973,70 @@ paths:
                   type: integer
                 ciclistaId:
                   type: integer
+                data_retirada:
+                  type: string
+      responses:
+        200:
+          description: Aluguel realizado.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  mensagem:
+                    type: string
+                    example: Aluguel realizado.
+                  dados:
+                    type: object
+                    properties:
+                      data_retirada:
+                        type: string
+                      trancaId:
+                        type: integer
+                      ciclistaId:
+                        type: integer
+                      cartaoId:
+                        type: integer
+                      bicicletaId:
+                        type: string
+  /alugueis/devolver:
+    patch:
+      tags:
+        - Alugueis
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
                 bicicletaId:
                   type: integer
+      responses:
+        200:
+          description: Bicicleta devolvida.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  mensagem:
+                    type: string
+                    example: Bicicleta devolvida.
+                  dados:
+                    type: object
+                    properties:
+                      bicicletaId:
+                        type: integer
+                      trancaId:
+                        type: integer
+                      data_devolucao: 
+                        type: string
+                      data_cobranca:
+                        type: string
+                      cartaoId:
+                        type: integer
+                      valor_extra:
+                        type: number
 
   # Funcionários
   /funcionarios:
@@ -1024,6 +1198,12 @@ components:
     trancaId:
       in: path
       name: trancaId
+      required: true
+      schema:
+        type: integer
+    cartaoId:
+      in: path
+      name: cartaoId
       required: true
       schema:
         type: integer

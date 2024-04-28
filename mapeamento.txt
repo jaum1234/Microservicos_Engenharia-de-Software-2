@@ -13,6 +13,41 @@ UC02 - Confirmar Email (Fluxo Principal)
 	Passo 1 a 3:
 		[FRONT] /ciclistas/{ciclistaId}/ativar [GET] (Serviço de Gerencimaneto de Ciclistas)
 
+
+UC03 - Alugar Bicicleta (Fluxo Principal)
+	Passo 3:
+		[FRONT] /alugueis [POST] [R3] (Serviço de Algueis)
+		[BACK] /trancas/{trancaId} [GET] (Serviço de Gerenciamento de Equipamentos)
+	Passo 4:
+		[BACK] /trancas/{trancaId}/bicicletas/{bicicletaId}/momento-atual [GET] (Serviço de Gerenciamento de Equipamentos)
+	Passo 5:
+		[BACK] /ciclistas/{ciclistaId} [GET] [R1] (Serviço de Gerenciamento de Ciclista)
+	Passo 6 a 7:
+		[BACK] /cobrancas/enviar (Serviço de Cartões)
+	Passo 9:
+		[BACK] /bicicletas/{bicicletaId} [PATCH] (Serviço de Gerenciamento de Equipamentos)
+	Passo 10:
+		[BACK] /trancas/{trancaId}/solicitar-abertura [PATCH] [R4] (Serviço de Gerenciamento de Equipamentos)
+
+UC04 - Devolver Bicicleta (Fluxo Principal)
+	Passo 2 a 4:
+		[FRONT] /alugueis/devolver [PATCH] [R2] (Serviço de Gerenciamento de Alugueis)
+		[BACK] /bicicletas/{bicicletaId} [GET] (Serviço de Gerenciamento de Equipamentos)
+	Passo 5:
+		[BACK] /bicicletas/{bicicletaId} [PATCH] (Serviço de Gerenciamento de Equipamentos)
+	Passo 6
+		[BACK] /trancas/{trancaId}/solicitar-fechamento [PATCH] (Serviço de Gerenciamento de Equipamentos)
+	Passo 7:
+		[BACK] /emails/enviar [R3] (Serviço de Emails)
+
+UC04 - Devolver Bicicleta (Fluxo Alternativo 1)
+	Passo 1 a 2:
+		[BACK] /cobrancas/enviar [POST] (Serviço de Cartões)
+
+UC04 - Devolver Bicicleta (Fluxo Alternativo 3)
+	Passo 1 a 2Ç
+		[BACK] /bicicletas/{bicicletaId}/solicitar-reparo
+
 UC06 - Alterar Dados do Ciclista (Fluxo Principal)
 	Passo 3:
 		[FRONT] /ciclistas/{ciclistaId} [PUT] [R1], [R2] (Serviço de Gerenciamento de Ciclistas)
@@ -24,6 +59,24 @@ UC07 - Alterar Cartão (Fluxo Principal)
 		[FRONT] /cartoes/{cartaoId} [PUT] (Serviço de Gerencimanto de Cartöes)
 	Passo 5:
 		[BACK] /emails/enviar [POST] (Serviço de Email)
+
+UC08 - Incluir Bicicleta na Rede de Totens (Fluxo Principal)
+	Passo 2 a 5:
+		[FRONT] /bicicletas/{bicletaId}/incluir [GET] [R1] [R3] (Serviço de Gerenciamentod de Equipamentos)
+	Passo 6:
+		[BACK] /emails/enviar [POST] [R2] (Serviço de Email)
+
+UC09 - Retirar Bicicleta do Sistema de Totens para Reparo (Fluxo Alternativo)
+	Passo 5 a 9:
+		[FRONT] /bicicletas/{bicicletaId}/retirar [PATCH] [R1] (Serviço de Gerenciamento de Equipamentos)
+	Passo 10:
+		[BACK] /emails/enviar (Serviço de Email)
+
+UC09 - Retirar Bicicleta do Sistema de Totens para Reparo (Fluxo Alternativo 1)
+	Passo 3 a 7:
+		[FRONT] /bicicletas/{bicicletaId}/retirar [PATCH] [R1] (Serviço de Gerenciamento de Equipamentos)
+	Passo 8:
+		[BACK] /emails/enviar (Serviço de Email)
 
 UC10 - Manter Cadastro de Bicicletas (Fluxo Principal)
 	Passo 1:
@@ -40,6 +93,28 @@ UC10 - Manter Cadastro de Bicicletas (Fluxo Alternativo 1)
 UC10 - Manter Cadastro de Bicicletas (Fluxo Alternativo 2)
 	Passo 2 A 3:
 		[FRONT] /bicicletas/{bicicletaId}/excluir [PATCH] (Serviço de Gerenciamento de Equipamentos)
+
+UC11 - Incluir Tranca em Totem
+	Passo 2 a 4:
+		[FRONT] /trancas/{trancaId}/incluir [PATCH] [R3] (Serviço de Gerenciamento de Equipamentos)
+	Passo 5:
+		[BACK] /emails/enviar [POST] [R2] (Serviço de Email)
+
+UC12 - Retirar Tranca do Sistema de Totens Reparo (Fluxo Principal)
+	Passo 5 a 6:
+		[FRONT] /trancas/{trancaId}/solicitar-liberacao [PATCH] (Serviço de Gerenciamento de Equipamentos)
+	Passo 8 a 9:
+		[FRONT] /trancas/{trancaId}/retirar [PATCH] [R1] (Serviço de Gerenciamento de Equipamentos)
+	Passo 10:
+		[BACK] /emails/enviar [R2] (Serviço de Emails)
+
+UC12 - Retirar Tranca do Sistema de Totens Reparo (Fluxo Alternativo 1)
+	Passo 3 a 4:
+		[FRONT] /trancas/{trancaId}/solicitar-liberacao [PATCH] (Serviço de Gerenciamento de Equipamentos)
+	Passo 6 a 7:
+		[FRONT] /trancas/{trancaId}/retirar [PATCH] [R1] (Serviço de Gerenciamento de Equipamentos)
+	Passo 8:
+		[BACK] /emails/enviar [R2] (Serviço de Emails)
 
 UC13 - Manter Cadastro de Trancas (Fluxo Principal)
 	Passo 1:
@@ -90,3 +165,9 @@ UC15 - Manter Cadastro de Funcionários (Fluxo Alternativo 1)
 UC15 - Manter Cadastro de Funcionários (Fluxo Alternativo 2)
 	Passo 2 a 3:
 		[FRONT] /funcionarios/{funcionarioId} [DELETE] (Serviço de Gerenciamento de Funcionários)
+
+UC16 - Cobrar Taxas Atrasadas
+	Passo 1 a 2:
+		[FRONT] /cobrancas/cobrar-taxas-atrasadas [GET] (Serviço de Cartões) [R1]
+	Passo 3:
+		[BACK] /emails/enviar [POST] (Serviço de Emails)

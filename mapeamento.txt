@@ -2,10 +2,10 @@ UC01 - Cadastrar Ciclista (Fluxo Principal)
 	Passo 4:
 		[FRONT] /ciclistas/{email}/validar [GET] (Serviço de Gerenciamento de Ciclistas)
 	Passo 7:
-		[FRONT] /cartoes/validar?numero&nome&validade&codigo [GET] (Serviço de Gerenciamento de Cartões)
+		[FRONT] /cartoes/validar?numero&nome&validade&codigo [GET] (Serviço de Pagamento)
 	Passo 8:
 		[BACK] /ciclistas [POST] (Serviço de Gerenciamento de Ciclistas)
-		[BACK] /cartoes [POST] (Serviço de Gerenciamento de Cartões)
+		[BACK] /cartoes [POST] (Serviço de Pagamento)
 	Passo 9:
 		[BACK] /email/enviar [POST] (Serviço de Email)
 
@@ -16,14 +16,14 @@ UC02 - Confirmar Email (Fluxo Principal)
 
 UC03 - Alugar Bicicleta (Fluxo Principal)
 	Passo 3:
-		[FRONT] /alugueis [POST] [R3] (Serviço de Algueis)
+		[FRONT] /alugueis [POST] [R1] [R2] [R3] (Serviço de Algueis)
 		[BACK] /trancas/{trancaId} [GET] (Serviço de Gerenciamento de Equipamentos)
 	Passo 4:
 		[BACK] /trancas/{trancaId}/bicicletas/{bicicletaId}/momento-atual [GET] (Serviço de Gerenciamento de Equipamentos)
 	Passo 5:
-		[BACK] /ciclistas/{ciclistaId} [GET] [R1] (Serviço de Gerenciamento de Ciclista)
+		[BACK] /ciclistas/{ciclistaId} [GET] (Serviço de Gerenciamento de Ciclista)
 	Passo 6 a 7:
-		[BACK] /cobrancas/enviar (Serviço de Cartões)
+		[BACK] /cobrancas/enviar (Serviço de Pagamento)
 	Passo 9:
 		[BACK] /bicicletas/{bicicletaId} [PATCH] (Serviço de Gerenciamento de Equipamentos)
 	Passo 10:
@@ -31,7 +31,7 @@ UC03 - Alugar Bicicleta (Fluxo Principal)
 
 UC04 - Devolver Bicicleta (Fluxo Principal)
 	Passo 2 a 4:
-		[FRONT] /alugueis/devolver [PATCH] [R2] (Serviço de Gerenciamento de Alugueis)
+		[FRONT] /alugueis/devolver [PATCH] [R1] [R2] (Serviço de Gerenciamento de Alugueis)
 		[BACK] /bicicletas/{bicicletaId} [GET] (Serviço de Gerenciamento de Equipamentos)
 	Passo 5:
 		[BACK] /bicicletas/{bicicletaId} [PATCH] (Serviço de Gerenciamento de Equipamentos)
@@ -42,11 +42,15 @@ UC04 - Devolver Bicicleta (Fluxo Principal)
 
 UC04 - Devolver Bicicleta (Fluxo Alternativo 1)
 	Passo 1 a 2:
-		[BACK] /cobrancas/enviar [POST] (Serviço de Cartões)
+		[BACK] /cobrancas/enviar [POST] (Serviço de Pagamento)
 
 UC04 - Devolver Bicicleta (Fluxo Alternativo 3)
-	Passo 1 a 2Ç
-		[BACK] /bicicletas/{bicicletaId}/solicitar-reparo
+	Passo 1 a 2:
+		[BACK] /bicicletas/{bicicletaId}/solicitar-reparo (Serviço de Gerenciamento de Equipamentos)
+
+UC04 - Devolver Bicicleta (Fluxo Alternativo 4)
+	Passo 1:
+		[BACK] /bicicletas/{bicicletaId}/incluir (Serviço de Gerenciamento de Equipamentos)
 
 UC06 - Alterar Dados do Ciclista (Fluxo Principal)
 	Passo 3:
@@ -77,7 +81,7 @@ UC09 - Retirar Bicicleta do Sistema de Totens para Reparo (Fluxo Alternativo 1)
 		[FRONT] /bicicletas/{bicicletaId}/retirar [PATCH] [R1] (Serviço de Gerenciamento de Equipamentos)
 	Passo 8:
 		[BACK] /emails/enviar (Serviço de Email)
-
+ 
 UC10 - Manter Cadastro de Bicicletas (Fluxo Principal)
 	Passo 1:
 		[FRONT] /bicicletas [GET] (Serviço de Gerenciamento de Equipamentos)
@@ -96,7 +100,7 @@ UC10 - Manter Cadastro de Bicicletas (Fluxo Alternativo 2)
 
 UC11 - Incluir Tranca em Totem
 	Passo 2 a 4:
-		[FRONT] /trancas/{trancaId}/incluir [PATCH] [R3] (Serviço de Gerenciamento de Equipamentos)
+		[FRONT] /trancas/{trancaId}/incluir [PATCH] [R1] [R3] (Serviço de Gerenciamento de Equipamentos)
 	Passo 5:
 		[BACK] /emails/enviar [POST] [R2] (Serviço de Email)
 
@@ -168,6 +172,6 @@ UC15 - Manter Cadastro de Funcionários (Fluxo Alternativo 2)
 
 UC16 - Cobrar Taxas Atrasadas
 	Passo 1 a 2:
-		[FRONT] /cobrancas/cobrar-taxas-atrasadas [GET] (Serviço de Cartões) [R1]
+		[FRONT] /cobrancas/cobrar-taxas-atrasadas [GET] (Serviço de Pagamento) [R1]
 	Passo 3:
-		[BACK] /emails/enviar [POST] (Serviço de Emails)
+		[BACK] /emails/enviar [R2] [POST] (Serviço de Emails)

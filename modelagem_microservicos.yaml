@@ -1,12 +1,12 @@
 openapi: 3.0.3
 info:
   title: Sistema de Controle de Bicicletário - SCB
-  version: 0.0.1
+  version: 1.0.2
 tags:
   - name: Ciclistas
     description: Serviço de Gerenciamento de Ciclistas
-  - name: Cartões
-    description: Serviço de Cartões
+  - name: Pagamentos
+    description: Serviço de Pagamento
   - name: Emails
     description: Serviço de Email
   - name: Equipamentos
@@ -356,6 +356,12 @@ paths:
                   erro:
                     type: string
                     example: Bicicleta em uso.
+                  dados:
+                    type: object
+                    properties:
+                      bicicletaId:
+                        type: integer
+
   /bicicletas/{bicicletaId}/solicitar-reparo:
     patch:
       tags:
@@ -503,7 +509,7 @@ paths:
   /cartoes:
     post:
       tags:
-      - Cartões
+      - Pagamentos
       description: "Cadastra um novo cartão no sistema."
       requestBody:
         content:
@@ -518,7 +524,7 @@ paths:
       parameters:
         - $ref: "#/components/parameters/cartaoId"
       tags:
-        - Cartões
+        - Pagamentos
       responses:
         200:
           description: "Cartão recuperado com sucesso."
@@ -534,7 +540,7 @@ paths:
           schema:
             type: integer
       tags:
-        - Cartões
+        - Pagamentos
       requestBody:
         content:
           application/json:
@@ -569,7 +575,7 @@ paths:
           schema:
             type: string
       tags:
-      - Cartões
+      - Pagamentos
       responses:
         200:
           description: "Cartão aprovado."
@@ -586,7 +592,7 @@ paths:
   /cobrancas/enviar:
     post:
       tags:
-        - Cartões
+        - Pagamentos
       requestBody:
         content:
           application/json:
@@ -642,7 +648,7 @@ paths:
   /cobrancas/cobrar-taxas-atrasadas:
     get:
       tags:
-        - Cartões
+        - Pagamentos
       responses:
         200:
           description: Cobranças realizadas.
@@ -864,8 +870,7 @@ paths:
                     properties:
                       trancaId: 
                         type: integer
-                        example: -10323
-          
+                        example: -10323      
   /trancas/{trancaId}/solicitar-abertura:
     patch:
       tags:
@@ -963,6 +968,11 @@ paths:
                   mensagem: 
                     type: string
                     example: Tranca liberada.
+                  dados:
+                    type: object
+                    properties:
+                      trancaId:
+                        type: integer
         400:
           description: Tranca com status diferente de "reparo solicitado"
           content:
@@ -1011,8 +1021,16 @@ paths:
               schema:
                 type: object
                 properties:
-                  sucesso:
-                    type: boolean
+                  mensagem:
+                    type: string
+                  dados:
+                    type: object
+                    properties:
+                      trancaId:
+                        type: integer
+                      data_insercao:
+                        type: string
+                          
         404:
           description: "Tranca não cadastrada no sistema."
           content:
